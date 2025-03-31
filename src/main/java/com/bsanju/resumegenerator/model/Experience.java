@@ -10,9 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Experience {
+    private String title;
     private String company;
-    private String role;
+    private String location;
+    private String dates;
     private String description;
-
-
 }

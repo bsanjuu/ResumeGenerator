@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -25,26 +26,55 @@ public class ResumeController {
         this.pdfGeneratorService = pdfGeneratorService;
     }
 
+    @GetMapping("/")
+    public String Home()
+    {
+        return "index";
+    }
+    @ModelAttribute("resumeData")
+    public ResumeData getResumeData() {
+        ResumeData resumeData = new ResumeData();
+        resumeData.setExperienceList(new ArrayList<>(List.of(new Experience())));
+        resumeData.setProjectList(new ArrayList<>(List.of(new Project())));
+        resumeData.setEducationList(new ArrayList<>(List.of(new Education())));
+        resumeData.setTechnicalSkills(new ArrayList<>());
+        resumeData.setSoftSkills(new ArrayList<>());
+        return resumeData;
+    }
+
     @GetMapping("/resume")
     public String showForm(Model model) {
-        ResumeData data = new ResumeData();
-        data.setExperienceList(List.of(new Experience()));
-        data.setProjectList(List.of(new Project()));
-        data.setEducationList(List.of(new Education()));
-        model.addAttribute("resumeData", data);
-        return "resume-form";
+        if (!model.containsAttribute("resumeData")) {
+            model.addAttribute("resumeData", getResumeData());
+        }
+        return "index";
     }
 
     @PostMapping("/resume")
-    public String previewResume(@ModelAttribute ResumeData resumeData, Model model) {
+    public String handleForm(@ModelAttribute("resumeData") ResumeData resumeData,
+                             @RequestParam(value = "action", required = false, defaultValue = "submit") String action,
+                             Model model) {
+        switch (action) {
+            case "addExperience":
+                resumeData.getExperienceList().add(new Experience());
+                break;
+            case "addProject":
+                resumeData.getProjectList().add(new Project());
+                break;
+            case "addEducation":
+                resumeData.getEducationList().add(new Education());
+                break;
+            case "submit":
+                model.addAttribute("resumeData", resumeData);
+                return "resume-preview";
+        }
         model.addAttribute("resumeData", resumeData);
-        return "resume-preview";
+        return "index";
     }
 
     @PostMapping("/resume/pdf")
-    public ResponseEntity<byte[]> generatePdf(@ModelAttribute ResumeData resumeData) throws Exception {
+    public ResponseEntity<byte[]> generatePdf(@ModelAttribute("resumeData") ResumeData resumeData) throws Exception {
         byte[] pdfBytes = pdfGeneratorService.generatePdf(resumeData);
-
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=resume.pdf")
                 .contentType(MediaType.APPLICATION_PDF)

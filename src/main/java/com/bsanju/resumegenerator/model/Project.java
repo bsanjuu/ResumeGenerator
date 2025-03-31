@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Project {
-    private String title;
+    private String name;
     private String description;
     private String githubUrl;
 }

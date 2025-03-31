@@ -10,7 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Education {
-    private String college;
-    private String course;
-    private String description;
+    private String university;
+    private String degree;
+    private String location;
+    private String gradYear;
 }
