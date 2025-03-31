@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:text="${resumeData.fullName} + ' - Resume'">Resume</title>
+    <style>
+        body {
+            font-family: 'Helvetica', sans-serif;
+            font-size: 11px;
+            color: #000;
+            padding: 20px 40px;
+        }
+
+        h1 {
+            font-size: 18px;
+            margin-bottom: 0;
+        }
+
+        .header {
+            border-bottom: 1px solid #000;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 18px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .item {
+            margin-bottom: 8px;
+        }
+
+        .item-title {
+            font-weight: bold;
+        }
+
+        ul {
+            padding-left: 15px;
+            margin-top: 2px;
+        }
+
+        li {
+            margin-bottom: 2px;
+        }
+
+        .contact {
+            font-size: 10px;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <h1 th:text="${resumeData.fullName}">Full Name</h1>
+    <div class="contact">
+        <span th:text="${resumeData.email}">email@example.com</span> |
+        <span th:text="${resumeData.phone}">1234567890</span><br />
+        <span th:if="${resumeData.linkedin}">LinkedIn: <span th:text="${resumeData.linkedin}"></span></span><br />
+        <span th:if="${resumeData.github}">GitHub: <span th:text="${resumeData.github}"></span></span>
+    </div>
+</div>
+
+<!-- Experience -->
+<div th:if="${resumeData.experienceList}">
+    <div class="section-title">Experience</div>
+    <div th:each="exp : ${resumeData.experienceList}" class="item">
+        <div class="item-title" th:text="${exp.role} + ' @ ' + ${exp.company}">Role @ Company</div>
+        <div th:text="${exp.description}">Description</div>
+    </div>
+</div>
+
+<!-- Projects -->
+<div th:if="${resumeData.projectList}">
+    <div class="section-title">Projects</div>
+    <div th:each="proj : ${resumeData.projectList}" class="item">
+        <div class="item-title" th:text="${proj.title}">Project Title</div>
+        <div th:text="${proj.description}">Project Description</div>
+        <div th:if="${proj.githubUrl}">GitHub: <span th:text="${proj.githubUrl}"></span></div>
+    </div>
+</div>
+
+<!-- Education -->
+<div th:if="${resumeData.educationList}">
+    <div class="section-title">Education</div>
+    <div th:each="edu : ${resumeData.educationList}" class="item">
+        <div class="item-title" th:text="${edu.course} + ' @ ' + ${edu.college}">Course @ College</div>
+        <div th:text="${edu.description}">Education description</div>
+    </div>
+</div>
+
+<!-- Languages -->
+<div th:if="${resumeData.languages}">
+    <div class="section-title">Languages</div>
+    <ul>
+        <li th:each="lang : ${resumeData.languages}" th:text="${lang}"></li>
+    </ul>
+</div>
+
+<!-- Skills -->
+<div th:if="${resumeData.skills}">
+    <div class="section-title">Skills</div>
+    <ul>
+        <li th:each="skill : ${resumeData.skills}" th:text="${skill}"></li>
+    </ul>
+</div>
+
+</body>
+</html>

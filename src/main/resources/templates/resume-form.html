@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Resume Form</title>
+</head>
+<body>
+<h2>Build Your Resume</h2>
+
+<form th:action="@{/resume}" th:object="${resumeData}" method="post">
+
+  <!-- ✅ Required Fields -->
+  <label>Full Name*</label><br>
+  <input type="text" th:field="*{fullName}" required><br><br>
+
+  <label>Email*</label><br>
+  <input type="email" th:field="*{email}" required><br><br>
+
+  <label>Phone*</label><br>
+  <input type="text" th:field="*{phone}" required><br><br>
+
+  <!-- ✅ Optional Fields -->
+  <label>LinkedIn</label><br>
+  <input type="url" th:field="*{linkedin}"><br><br>
+
+  <label>GitHub</label><br>
+  <input type="url" th:field="*{github}"><br><br>
+
+  <!-- ✅ Experience Section (Single entry for now; can be made dynamic with JS) -->
+  <h3>Experience (Optional)</h3>
+  <div th:object="${resumeData.experienceList[0]}">
+    <label>Company</label><br>
+    <input type="text" th:field="*{company}"><br>
+
+    <label>Role</label><br>
+    <input type="text" th:field="*{role}"><br>
+
+    <label>Description</label><br>
+    <textarea th:field="*{description}"></textarea><br>
+  </div><br>
+
+  <!-- ✅ Projects -->
+  <h3>Project (Optional)</h3>
+  <div th:object="${resumeData.projectList[0]}">
+    <label>Title</label><br>
+    <input type="text" th:field="*{title}"><br>
+
+    <label>Description</label><br>
+    <textarea th:field="*{description}"></textarea><br>
+
+    <label>GitHub URL</label><br>
+    <input type="url" th:field="*{githubUrl}"><br>
+  </div><br>
+
+  <!-- ✅ Education -->
+  <h3>Education (Optional)</h3>
+  <div th:object="${resumeData.educationList[0]}">
+    <label>College</label><br>
+    <input type="text" th:field="*{college}"><br>
+
+    <label>Course</label><br>
+    <input type="text" th:field="*{course}"><br>
+
+    <label>Description</label><br>
+    <textarea th:field="*{description}"></textarea><br>
+  </div><br>
+
+  <!-- ✅ Skills -->
+  <label>Languages (comma-separated)</label><br>
+  <input type="text" th:field="*{languages}"><br><br>
+
+  <label>Skills (comma-separated)</label><br>
+  <input type="text" th:field="*{skills}"><br><br>
+
+  <button type="submit">Preview Resume</button>
+</form>
+</body>
+</html>

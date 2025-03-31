@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Resume Preview</title>
+</head>
+<body>
+<h2>Resume Preview</h2>
+
+<!-- Personal Info -->
+<p><strong>Name:</strong> <span th:text="${resumeData.fullName}"></span></p>
+<p><strong>Email:</strong> <span th:text="${resumeData.email}"></span></p>
+<p><strong>Phone:</strong> <span th:text="${resumeData.phone}"></span></p>
+
+<p th:if="${resumeData.linkedin}"><strong>LinkedIn:</strong> <span th:text="${resumeData.linkedin}"></span></p>
+<p th:if="${resumeData.github}"><strong>GitHub:</strong> <span th:text="${resumeData.github}"></span></p>
+
+<!-- Experience -->
+<div th:if="${resumeData.experienceList != null}">
+    <h3>Experience</h3>
+    <div th:each="exp : ${resumeData.experienceList}">
+        <p><strong>Company:</strong> <span th:text="${exp.company}"></span></p>
+        <p><strong>Role:</strong> <span th:text="${exp.role}"></span></p>
+        <p><strong>Description:</strong> <span th:text="${exp.description}"></span></p>
+        <hr/>
+    </div>
+</div>
+
+<!-- Projects -->
+<div th:if="${resumeData.projectList != null}">
+    <h3>Projects</h3>
+    <div th:each="proj : ${resumeData.projectList}">
+        <p><strong>Title:</strong> <span th:text="${proj.title}"></span></p>
+        <p><strong>Description:</strong> <span th:text="${proj.description}"></span></p>
+        <p><strong>GitHub URL:</strong> <span th:text="${proj.githubUrl}"></span></p>
+        <hr/>
+    </div>
+</div>
+
+<!-- Education -->
+<div th:if="${resumeData.educationList != null}">
+    <h3>Education</h3>
+    <div th:each="edu : ${resumeData.educationList}">
+        <p><strong>College:</strong> <span th:text="${edu.college}"></span></p>
+        <p><strong>Course:</strong> <span th:text="${edu.course}"></span></p>
+        <p><strong>Description:</strong> <span th:text="${edu.description}"></span></p>
+        <hr/>
+    </div>
+</div>
+
+<!-- Languages -->
+<div th:if="${resumeData.languages != null}">
+    <h3>Languages</h3>
+    <ul>
+        <li th:each="lang : ${resumeData.languages}" th:text="${lang}"></li>
+    </ul>
+</div>
+
+<!-- Skills -->
+<div th:if="${resumeData.skills != null}">
+    <h3>Skills</h3>
+    <ul>
+        <li th:each="skill : ${resumeData.skills}" th:text="${skill}"></li>
+    </ul>
+</div>
+
+<!-- PDF Download -->
+<form th:action="@{/resume/pdf}" method="post">
+    <input type="hidden" th:name="resumeData" th:value="${resumeData}" />
+    <button type="submit">Download as PDF</button>
+</form>
+</body>
+</html>
