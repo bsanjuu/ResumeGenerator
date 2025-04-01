@@ -110,7 +110,7 @@ public class ResumeController {
                     System.lineSeparator() +
                     "- Designed microservices using Spring Boot that reduced API latency " +
                     System.lineSeparator() +
-                    "- Implemented AWS cloud solutions cutting infrastructure costs";
+                    "- Involved in Requirements gathering and analysis, defining scope, Design analysis, Integration and Deployment";
 
             String aiText = deepSeekService.generateDescription(prompt);
 
